@@ -12,6 +12,7 @@ const respondJSONMeta = (request, response, status) => {
 };
 
 const getTasks = (request, response) => {
+  console.log(tasks);
   const responseJSON = {
     tasks,
   };
@@ -35,8 +36,10 @@ const setTask = (request, response, body) => {
     tasks[body.name] = {};
   }
 
-  tasks[body.name].name = body.name;
-  tasks[body.name].stage = body.stage;
+  // tasks[body.name].name = body.name;
+  // tasks[body.name].stage = body.stage;
+
+  tasks[body.name] = body.stage;
 
   if (responseCode === 201) {
     responseJSON.message = 'Task created successfully.';
