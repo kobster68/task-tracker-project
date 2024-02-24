@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Task Tracker</title>
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  <script>
+  </script>
+</head>
+<body>
+  <section id="top">
+    <h3>Task Tracker</h3>
+    <form id="taskForm" action="/setTask" method="post">
+      <label for="name">Task Name: </label>
+      <input id="taskName" type="text" name="name" />
+      <select id='section'>
+        <option value='backlog'>Backlog</option>
+        <option value='doing'>Doing</option>
+        <option value='completed'>Completed</option>
+      </select>
+      <input type="submit" value="Set Task" id="setTask" />
+    </form>
+  </section>
+  <section id="content">
+    <div id="Backlog"><h4>Backlog</h4></div>
+    <div id="Doing"><h4>Doing</h4></div>
+    <div id="Completed"><h4>Completed</h4></div>
+  </section>
+</body>
+</html>
