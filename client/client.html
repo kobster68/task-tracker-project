@@ -4,6 +4,73 @@
   <title>Task Tracker</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
   <script>
+    const handleResponse = async (response) => {
+      const backlog = document.querySelector('#backlog');
+      const doing = document.querySelector('#doing');
+      const completed = document.querySelector('#completed');
+	  
+	  let obj = await response.json();
+      obj = JSON.parse(obj);
+
+      for(const task in obj) {
+        backlog.innerHTML += `<p>${task.name}</p>`;
+      }
+    };
+	
+	const sendPost = async (taskForm) => {
+      const formAction = taskForm.getAttribute('action');
+      const formMethod = taskForm.getAttribute('method');
+
+      const name = taskForm.querySelector('#taskName').value;
+      const stage = taskForm.querySelector('#stageSelect').value;
+
+      const formData = `name=${name}&stage=${stage}`;
+
+      let response = await fetch(formAction, {
+        method: formMethod,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json',
+        },
+        body: formData,
+      });
+
+      handleResponse(response);
+    };
+	
+	const requestUpdate = async (taskForm) => {
+		const url = '/getTasks'
+		const method = 'get';
+      
+		let response = await fetch(url, {
+			method,
+			headers: {
+				'Accept': 'application/json',
+			},
+		});
+
+		handleResponse(response);
+    };
+
+    const init = () => {
+	  const taskForm = document.querySelector('#taskForm');
+      const updateButton = document.querySelector('#getTasks');
+      
+	  const addTask = (e) => {
+		e.preventDefault();
+		sendPost(taskForm);
+		return false;
+	  }
+      const getTasks = () => {
+        requestUpdate(taskForm);
+	  }
+	  
+	  taskForm.addEventListener('submit', addTask);
+      updateButton.addEventListener('click', getTasks);
+
+    };
+
+    window.onload = init;
   </script>
 </head>
 <body>
@@ -12,7 +79,7 @@
     <form id="taskForm" action="/setTask" method="post">
       <label for="name">Task Name: </label>
       <input id="taskName" type="text" name="name" />
-      <select id='stage'>
+      <select id='stageSelect'>
         <option value='backlog'>Backlog</option>
         <option value='doing'>Doing</option>
         <option value='completed'>Completed</option>
@@ -22,9 +89,9 @@
     <button id="getTasks">Update Tasks</button>
   </section>
   <section id="content">
-    <div id="Backlog"><h4>Backlog</h4></div>
-    <div id="Doing"><h4>Doing</h4></div>
-    <div id="Completed"><h4>Completed</h4></div>
+    <div id="backlog"><h4>Backlog</h4></div>
+    <div id="doing"><h4>Doing</h4></div>
+    <div id="completed"><h4>Completed</h4></div>
   </section>
 </body>
 </html>
