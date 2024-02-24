@@ -6,6 +6,11 @@ const respondJSON = (request, response, status, object) => {
   response.end();
 };
 
+const respondJSONMeta = (request, response, status) => {
+  response.writeHead(status, { 'Content-Type': 'application/json' });
+  response.end();
+};
+
 const getTasks = (request, response) => {
   const responseJSON = {
     tasks,
@@ -42,7 +47,12 @@ const setTask = (request, response, body) => {
   return respondJSON(request, response, responseCode, responseJSON);
 };
 
+const notFound = (request, response) => {
+  respondJSONMeta(request, response, 404);
+};
+
 module.exports = {
   getTasks,
   setTask,
+  notFound,
 };
