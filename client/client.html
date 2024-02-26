@@ -26,13 +26,13 @@
       for(const task in obj.tasks) {
         switch(obj.tasks[task]) {
             case "backlog":
-                backlog.innerHTML += `<div>${task}</div>`;
+                backlog.innerHTML += `<div id="task-box">${task}</div>`;
                 break;
             case "doing":
-                doing.innerHTML += `<div>${task}</div>`;
+                doing.innerHTML += `<div id="task-box">${task}</div>`;
                 break;
             case "completed":
-                completed.innerHTML += `<div>${task}</div>`;
+                completed.innerHTML += `<div id="task-box">${task}</div>`;
                 break;
         }
       }
@@ -58,6 +58,7 @@
       });
 
       handleResponse(response);
+      requestUpdate(taskForm);
     };
 	
 	const requestUpdate = async (taskForm) => {
@@ -99,7 +100,7 @@
   <section id="top">
     <h3>Task Tracker</h3>
     <form id="taskForm" action="/setTask" method="post">
-      <label for="name">Task Name: </label>
+      <label for="name">Task: </label>
       <input id="taskName" type="text" name="name" />
       <select id='stageSelect'>
         <option value='backlog'>Backlog</option>
@@ -111,12 +112,18 @@
     <button id="getTasks">Update Tasks</button>
   </section>
   <section id="content">
-    <h4>Backlog</h4>
-    <div id="backlog"></div>
-    <h4>Doing</h4>
-    <div id="doing"></div>
-    <h4>Completed</h4>
-    <div id="completed"></div>
+    <div id="task-section">
+      <h4>Backlog</h4>
+      <div id="backlog"></div>
+    </div>
+    <div id="task-section">
+      <h4>Doing</h4>
+      <div id="doing"></div>
+    </div>
+    <div id="task-section">
+      <h4>Completed</h4>
+      <div id="completed"></div>
+    </div>
   </section>
 </body>
 </html>
