@@ -4,6 +4,21 @@
   <title>Task Tracker</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
   <script>
+
+    const drag = (e) => {
+      e.dataTransfer.setData("text", e.target.innerHTML);
+    };
+
+    function allowDrop(e) {
+      e.preventDefault();
+    }
+
+    function drop(e, stage) {
+      e.preventDefault();
+      const name = e.dataTransfer.getData("text");
+      sendPostDragged(name, stage);
+    }
+
     const handleResponse = async (response) => {
       const backlog = document.querySelector('#backlog');
       const doing = document.querySelector('#doing');
@@ -26,13 +41,13 @@
       for(const task in obj.tasks) {
         switch(obj.tasks[task].stage) {
             case "backlog":
-                backlog.innerHTML += `<div id="task-box">${obj.tasks[task].name}</div>`;
+                backlog.innerHTML += `<div id="task-box" draggable=true ondragstart="drag(event)">${obj.tasks[task].name}</div>`;
                 break;
             case "doing":
-                doing.innerHTML += `<div id="task-box">${obj.tasks[task].name}</div>`;
+                doing.innerHTML += `<div id="task-box" draggable=true ondragstart="drag(event)">${obj.tasks[task].name}</div>`;
                 break;
             case "completed":
-                completed.innerHTML += `<div id="task-box">${obj.tasks[task].name}</div>`;
+                completed.innerHTML += `<div id="task-box" draggable=true ondragstart="drag(event)">${obj.tasks[task].name}</div>`;
                 break;
         }
       }
@@ -47,7 +62,27 @@
     const formMethod = taskForm.getAttribute('method');
 
     const name = taskForm.querySelector('#taskName').value;
+    const description = taskForm.querySelector('#taskDescription').value;
     const stage = taskForm.querySelector('#stageSelect').value;
+
+    const formData = `name=${name}&description=${description}&stage=${stage}`;
+
+    let response = await fetch(formAction, {
+      method: formMethod,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json',
+      },
+      body: formData,
+    });
+
+    handleResponse(response);
+    requestUpdate(taskForm);
+  };
+
+  const sendPostDragged = async (name, stage) => {
+    const formAction = '/setTask';
+    const formMethod = 'post';
 
     const formData = `name=${name}&stage=${stage}`;
 
@@ -109,8 +144,10 @@
   <section id="top">
     <h3>Task Tracker</h3>
     <form id="taskForm" action="/setTask" method="post">
-      <label for="name">Task: </label>
+      <label for="name">Name: </label>
       <input id="taskName" type="text" name="name" />
+      <label for="description">Description: </label>
+      <textarea id="taskDescription" type="text" name="description"></textarea>
       <select id='stageSelect'>
         <option value='backlog'>Backlog</option>
         <option value='doing'>Doing</option>
@@ -122,15 +159,15 @@
     <button id="getTasks">Update Tasks</button>
   </section>
   <section id="content">
-    <div id="task-section">
+    <div id="task-section" ondrop="drop(event, 'backlog')" ondragover="allowDrop(event)">
       <h4>Backlog</h4>
       <div id="backlog"></div>
     </div>
-    <div id="task-section">
+    <div id="task-section" ondrop="drop(event, 'doing')" ondragover="allowDrop(event)">
       <h4>Doing</h4>
       <div id="doing"></div>
     </div>
-    <div id="task-section">
+    <div id="task-section" ondrop="drop(event, 'completed')" ondragover="allowDrop(event)">
       <h4>Completed</h4>
       <div id="completed"></div>
     </div>

@@ -9,13 +9,15 @@
   }
   #task-section {
     text-align: center;
-    border: 4px solid black;
-    border-radius: 8px;
-    width: 224px;
+    border: 2px solid black;
+    width: 248px;
     height: 100%;
     display: inline-block;
     margin: 8px;
     background-color: #50727B;
+    margin-top: 24px;
+    vertical-align: top;
+    overflow-y: auto;
   }
   #task-box {
     text-align: center;
@@ -24,6 +26,8 @@
     border: 4px solid black;
     border-radius: 8px;
     margin: auto;
+    margin-top: 4px;
+    margin-bottom: 4px;
   }
   form {
     display: inline-block;

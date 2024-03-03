@@ -21,7 +21,7 @@ const getTasks = (request, response) => {
 
 const setTask = (request, response, body) => {
   const responseJSON = {
-    message: 'Enter a name for the task.',
+    message: 'Enter a name for the task.'
   };
 
   if (!body.name) {
