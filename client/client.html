@@ -6,7 +6,10 @@
   <script>
 
     const drag = (e) => {
-      e.dataTransfer.setData("text", e.target.innerHTML);
+      let name = e.target.innerHTML.split(`<p>`)[0];
+      let description = e.target.innerHTML.split(`<p>`)[1].split('</p>')[0];
+      e.dataTransfer.setData("name", name);
+      e.dataTransfer.setData("description", description);
     };
 
     function allowDrop(e) {
@@ -15,8 +18,9 @@
 
     function drop(e, stage) {
       e.preventDefault();
-      const name = e.dataTransfer.getData("text");
-      sendPostDragged(name, stage);
+      const name = e.dataTransfer.getData("name");
+      const description = e.dataTransfer.getData("description");
+      sendPostDragged(name, description, stage);
     }
 
     const handleResponse = async (response) => {
@@ -41,13 +45,13 @@
       for(const task in obj.tasks) {
         switch(obj.tasks[task].stage) {
             case "backlog":
-                backlog.innerHTML += `<div id="task-box" draggable=true ondragstart="drag(event)">${obj.tasks[task].name}</div>`;
+                backlog.innerHTML += `<div id="task-box" draggable=true ondragstart="drag(event)">${obj.tasks[task].name}<p>${obj.tasks[task].description}</p></div>`;
                 break;
             case "doing":
-                doing.innerHTML += `<div id="task-box" draggable=true ondragstart="drag(event)">${obj.tasks[task].name}</div>`;
+                doing.innerHTML += `<div id="task-box" draggable=true ondragstart="drag(event)">${obj.tasks[task].name}<p>${obj.tasks[task].description}</p></div>`;
                 break;
             case "completed":
-                completed.innerHTML += `<div id="task-box" draggable=true ondragstart="drag(event)">${obj.tasks[task].name}</div>`;
+                completed.innerHTML += `<div id="task-box" draggable=true ondragstart="drag(event)">${obj.tasks[task].name}<p>${obj.tasks[task].description}</p></div>`;
                 break;
         }
       }
@@ -80,11 +84,11 @@
     requestUpdate(taskForm);
   };
 
-  const sendPostDragged = async (name, stage) => {
+  const sendPostDragged = async (name, description, stage) => {
     const formAction = '/setTask';
     const formMethod = 'post';
 
-    const formData = `name=${name}&stage=${stage}`;
+    const formData = `name=${name}&description=${description}&stage=${stage}`;
 
     let response = await fetch(formAction, {
       method: formMethod,

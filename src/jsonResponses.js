@@ -21,7 +21,7 @@ const getTasks = (request, response) => {
 
 const setTask = (request, response, body) => {
   const responseJSON = {
-    message: 'Enter a name for the task.'
+    message: 'Enter a name for the task.',
   };
 
   if (!body.name) {
@@ -37,6 +37,7 @@ const setTask = (request, response, body) => {
   }
 
   tasks[body.name].name = body.name;
+  tasks[body.name].description = body.description;
   tasks[body.name].stage = body.stage;
 
   if (responseCode === 201) {
