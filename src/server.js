@@ -18,6 +18,7 @@ const urlStruct = {
   },
   POST: {
     '/setTask': jsonHandler.setTask,
+    '/deleteTask': jsonHandler.deleteTask,
   },
 };
 

@@ -24,42 +24,45 @@
       completed.innerHTML = ``;
 
       for(const task in obj.tasks) {
-        switch(obj.tasks[task]) {
+        switch(obj.tasks[task].stage) {
             case "backlog":
-                backlog.innerHTML += `<div id="task-box">${task}</div>`;
+                backlog.innerHTML += `<div id="task-box">${obj.tasks[task].name}</div>`;
                 break;
             case "doing":
-                doing.innerHTML += `<div id="task-box">${task}</div>`;
+                doing.innerHTML += `<div id="task-box">${obj.tasks[task].name}</div>`;
                 break;
             case "completed":
-                completed.innerHTML += `<div id="task-box">${task}</div>`;
+                completed.innerHTML += `<div id="task-box">${obj.tasks[task].name}</div>`;
                 break;
         }
       }
       
     };
 	
-	const sendPost = async (taskForm) => {
-      const formAction = taskForm.getAttribute('action');
-      const formMethod = taskForm.getAttribute('method');
+	const sendPost = async (taskForm, deleteTask) => {
+    let formAction = taskForm.getAttribute('action');
+    if (deleteTask) {
+      formAction = '/deleteTask';
+    }
+    const formMethod = taskForm.getAttribute('method');
 
-      const name = taskForm.querySelector('#taskName').value;
-      const stage = taskForm.querySelector('#stageSelect').value;
+    const name = taskForm.querySelector('#taskName').value;
+    const stage = taskForm.querySelector('#stageSelect').value;
 
-      const formData = `name=${name}&stage=${stage}`;
+    const formData = `name=${name}&stage=${stage}`;
 
-      let response = await fetch(formAction, {
-        method: formMethod,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Accept': 'application/json',
-        },
-        body: formData,
-      });
+    let response = await fetch(formAction, {
+      method: formMethod,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept': 'application/json',
+      },
+      body: formData,
+    });
 
-      handleResponse(response);
-      requestUpdate(taskForm);
-    };
+    handleResponse(response);
+    requestUpdate(taskForm);
+  };
 	
 	const requestUpdate = async (taskForm) => {
 		const url = '/getTasks'
@@ -73,28 +76,33 @@
 		});
 
 		handleResponse(response);
-    };
+  };
 
-    const init = () => {
-	    const taskForm = document.querySelector('#taskForm');
-      const updateButton = document.querySelector('#getTasks');
+  const init = () => {
+	  const taskForm = document.querySelector('#taskForm');
+    const updateButton = document.querySelector('#getTasks');
+    const deleteButton = document.querySelector('#deleteTask');
       
-	    const addTask = (e) => {
-		    e.preventDefault();
-		    sendPost(taskForm);
-		    return false;
-	    }
-      const getTasks = () => {
-        requestUpdate(taskForm);
-	    }
+	  const addTask = (e) => {
+		  e.preventDefault();
+		  sendPost(taskForm, false);
+		  return false;
+	  }
+    const deleteTask = () => {
+      sendPost(taskForm, true);
+    }
+    const getTasks = () => {
+      requestUpdate(taskForm);
+	  }
 	  
-	    taskForm.addEventListener('submit', addTask);
-      updateButton.addEventListener('click', getTasks);
+	  taskForm.addEventListener('submit', addTask);
+    deleteButton.addEventListener('click', deleteTask);
+    updateButton.addEventListener('click', getTasks);
 
-      requestUpdate();
-    };
+    requestUpdate();
+  };
 
-    window.onload = init;
+  window.onload = init;
   </script>
 </head>
 <body>

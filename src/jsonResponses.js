@@ -36,10 +36,8 @@ const setTask = (request, response, body) => {
     tasks[body.name] = {};
   }
 
-  // tasks[body.name].name = body.name;
-  // tasks[body.name].stage = body.stage;
-
-  tasks[body.name] = body.stage;
+  tasks[body.name].name = body.name;
+  tasks[body.name].stage = body.stage;
 
   if (responseCode === 201) {
     responseJSON.message = 'Task created successfully.';
@@ -54,8 +52,27 @@ const notFound = (request, response) => {
   respondJSONMeta(request, response, 404);
 };
 
+const deleteTask = (request, response, body) => {
+  const responseJSON = {
+    message: 'Enter a name of a task',
+  };
+
+  const responseCode = 204;
+
+  if (!body.name) {
+    responseJSON.id = 'missingParams';
+    return respondJSON(request, response, 400, responseJSON);
+  }
+
+  tasks[body.name] = {};
+
+  responseJSON.message = 'Task deleted successfully.';
+  return respondJSON(request, response, responseCode, responseJSON);
+};
+
 module.exports = {
   getTasks,
   setTask,
+  deleteTask,
   notFound,
 };
