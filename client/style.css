@@ -1,5 +1,8 @@
   html, body {
     height: 100%;
+    margin: 16px;
+    background-color: #35374B;
+    color: #fff;
   }
   #content {
     height: 100%;
@@ -7,14 +10,27 @@
   #task-section {
     text-align: center;
     border: 4px solid black;
-    width: 208px;
-    height: fit-content;
+    border-radius: 8px;
+    width: 224px;
+    height: 100%;
     display: inline-block;
     margin: 8px;
+    background-color: #50727B;
   }
   #task-box {
     text-align: center;
     width: 200px;
     height: 200px; 
     border: 4px solid black;
+    border-radius: 8px;
+    margin: auto;
+  }
+  button {
+
+  }
+  #setTask {
+
+  }
+  form {
+    display: inline-block;
   }

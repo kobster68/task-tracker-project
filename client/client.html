@@ -10,7 +10,7 @@
       const completed = document.querySelector('#completed');
 	  
       // get the json response
-	  let obj = await response.json();
+	    let obj = await response.json();
       console.log(obj);
 
       // if there is a message, return
@@ -76,21 +76,22 @@
     };
 
     const init = () => {
-	  const taskForm = document.querySelector('#taskForm');
+	    const taskForm = document.querySelector('#taskForm');
       const updateButton = document.querySelector('#getTasks');
       
-	  const addTask = (e) => {
-		e.preventDefault();
-		sendPost(taskForm);
-		return false;
-	  }
+	    const addTask = (e) => {
+		    e.preventDefault();
+		    sendPost(taskForm);
+		    return false;
+	    }
       const getTasks = () => {
         requestUpdate(taskForm);
-	  }
+	    }
 	  
-	  taskForm.addEventListener('submit', addTask);
+	    taskForm.addEventListener('submit', addTask);
       updateButton.addEventListener('click', getTasks);
 
+      requestUpdate();
     };
 
     window.onload = init;
@@ -109,6 +110,7 @@
       </select>
       <input type="submit" value="Set Task" id="setTask" />
     </form>
+    <button id="deleteTask">Delete Task</button>
     <button id="getTasks">Update Tasks</button>
   </section>
   <section id="content">
