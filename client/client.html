@@ -8,7 +8,7 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   <script>
 
-    // drag and drop functionality
+    // drag and drop functionality from w3schools (https://www.w3schools.com/html/html5_draganddrop.asp)
     const drag = (e) => {
       let name = e.target.innerHTML.split(`</h5>`)[0].split(`<h5>`)[1];
       let description = e.target.innerHTML.split(`<p>`)[1].split('</p>')[0];
@@ -17,7 +17,7 @@
       e.dataTransfer.setData("description", description);
     };
 
-    // stops drag and drop default functionality
+    // stops default drag and drop functionality
     function allowDrop(e) {
       e.preventDefault();
     }
