@@ -5,24 +5,31 @@
   <link rel="stylesheet" type="text/css" href="/style.css">
   <script>
 
+    // drag and drop functionality
     const drag = (e) => {
       let name = e.target.innerHTML.split(`<p>`)[0];
       let description = e.target.innerHTML.split(`<p>`)[1].split('</p>')[0];
+      // stores the name and description when dragging
       e.dataTransfer.setData("name", name);
       e.dataTransfer.setData("description", description);
     };
 
+    // stops drag and drop default functionality
     function allowDrop(e) {
       e.preventDefault();
     }
 
+    // function that sets up the POST request for drag and drop
     function drop(e, stage) {
       e.preventDefault();
+      // gets the stored name and description from previous function...
       const name = e.dataTransfer.getData("name");
       const description = e.dataTransfer.getData("description");
+      // and sends it to the POST function.
       sendPostDragged(name, description, stage);
     }
 
+    // handles the json responses from the server
     const handleResponse = async (response) => {
       const backlog = document.querySelector('#backlog');
       const doing = document.querySelector('#doing');
@@ -38,10 +45,12 @@
         return;
       }
 
+      // reset client side task display
       backlog.innerHTML = ``;
       doing.innerHTML = ``;
       completed.innerHTML = ``;
 
+      // adds appropriate task cards to each section
       for(const task in obj.tasks) {
         switch(obj.tasks[task].stage) {
             case "backlog":
@@ -58,8 +67,10 @@
       
     };
 	
+  // function to send post requests using form data
 	const sendPost = async (taskForm, deleteTask) => {
     let formAction = taskForm.getAttribute('action');
+    // if sendPost is called with deleteTask = true, sends a request to delete
     if (deleteTask) {
       formAction = '/deleteTask';
     }
@@ -80,10 +91,13 @@
       body: formData,
     });
 
+    // handles the response, then immediately requests an update
     handleResponse(response);
     requestUpdate(taskForm);
   };
 
+  // special function to send post requests after drag and drop
+  // (needed because drag and drop does not use the form parameters)
   const sendPostDragged = async (name, description, stage) => {
     const formAction = '/setTask';
     const formMethod = 'post';
@@ -99,10 +113,12 @@
       body: formData,
     });
 
+    // handles the response, then immediately requests an update
     handleResponse(response);
     requestUpdate(taskForm);
   };
 	
+  // sends a get request to update the tasks
 	const requestUpdate = async (taskForm) => {
 		const url = '/getTasks'
 		const method = 'get';
@@ -117,6 +133,8 @@
 		handleResponse(response);
   };
 
+  // sets up all the buttons and their functionality
+  // (set, delete and update tasks)
   const init = () => {
 	  const taskForm = document.querySelector('#taskForm');
     const updateButton = document.querySelector('#getTasks');

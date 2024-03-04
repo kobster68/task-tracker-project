@@ -7,6 +7,7 @@ const jsonHandler = require('./jsonResponses.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
+// contains all of the possible urls
 const urlStruct = {
   GET: {
     '/': htmlHandler.getIndex,
