@@ -2,12 +2,15 @@
 <html lang="en">
 <head>
   <title>Task Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="/style.css">
   <script>
 
     // drag and drop functionality
     const drag = (e) => {
-      let name = e.target.innerHTML.split(`<p>`)[0];
+      let name = e.target.innerHTML.split(`</h5>`)[0].split(`<h5>`)[1];
       let description = e.target.innerHTML.split(`<p>`)[1].split('</p>')[0];
       // stores the name and description when dragging
       e.dataTransfer.setData("name", name);
@@ -54,13 +57,13 @@
       for(const task in obj.tasks) {
         switch(obj.tasks[task].stage) {
             case "backlog":
-                backlog.innerHTML += `<div id="task-box" draggable=true ondragstart="drag(event)">${obj.tasks[task].name}<p>${obj.tasks[task].description}</p></div>`;
+                backlog.innerHTML += `<div id="task-box" draggable=true ondragstart="drag(event)"><h5>${obj.tasks[task].name}</h5><p>${obj.tasks[task].description}</p></div>`;
                 break;
             case "doing":
-                doing.innerHTML += `<div id="task-box" draggable=true ondragstart="drag(event)">${obj.tasks[task].name}<p>${obj.tasks[task].description}</p></div>`;
+                doing.innerHTML += `<div id="task-box" draggable=true ondragstart="drag(event)"><h5>${obj.tasks[task].name}</h5><p>${obj.tasks[task].description}</p></div>`;
                 break;
             case "completed":
-                completed.innerHTML += `<div id="task-box" draggable=true ondragstart="drag(event)">${obj.tasks[task].name}<p>${obj.tasks[task].description}</p></div>`;
+                completed.innerHTML += `<div id="task-box" draggable=true ondragstart="drag(event)"><h5>${obj.tasks[task].name}</h5><p>${obj.tasks[task].description}</p></div>`;
                 break;
         }
       }
@@ -169,7 +172,7 @@
       <label for="name">Name: </label>
       <input id="taskName" type="text" name="name" />
       <label for="description">Description: </label>
-      <textarea id="taskDescription" type="text" name="description"></textarea>
+      <input id="taskDescription" type="text" name="description"></input>
       <select id='stageSelect'>
         <option value='backlog'>Backlog</option>
         <option value='doing'>Doing</option>

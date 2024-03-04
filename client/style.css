@@ -1,29 +1,36 @@
   html, body {
-    height: 100%;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+
+    height: fit-content;
     margin: 16px;
-    background-color: #35374B;
-    color: #fff;
+    background-color: #B5C0D0;
+    color: #000;
+    text-shadow: 2px 2px #EED3D9;
   }
   #content {
-    height: 60%;
+    height: 80vh;
   }
   #task-section {
     text-align: center;
-    border: 2px solid black;
+    border: 2px solid #000;
     width: 248px;
     height: 100%;
     display: inline-block;
     margin: 8px;
-    background-color: #50727B;
+    background-color: #F5E8DD;
     margin-top: 24px;
     vertical-align: top;
     overflow-y: auto;
+    border-radius: 8px;
   }
   #task-box {
+    background-color: #EED3D9;
     text-align: center;
     width: 200px;
     height: 200px; 
-    border: 4px solid black;
+    border: 4px solid #000;
     border-radius: 8px;
     margin: auto;
     margin-top: 4px;
@@ -31,4 +38,15 @@
   }
   form {
     display: inline-block;
+  }
+  #top {
+    background-color: #CCD3CA;
+    border: 2px solid #000;
+    border-radius: 16px;
+    padding: 2em;
+    padding-top: 1em;
+  }
+  h5 {
+    font-size: 20px;
+    margin-top: 5px;
   }

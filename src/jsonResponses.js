@@ -25,7 +25,6 @@ const getTasks = (request, response) => {
 
 // creates a new task or updates an existing task
 const setTask = (request, response, body) => {
-
   // default message and response case if no name is chosen.
   const responseJSON = {
     message: 'Enter a name for the task.',
@@ -66,7 +65,6 @@ const notFound = (request, response) => {
 
 // function to delete task
 const deleteTask = (request, response, body) => {
-
   const responseCode = 204;
 
   // case if there is no name in name field
